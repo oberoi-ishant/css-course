@@ -1,0 +1,59 @@
+/* Check slide-important for the Grid system explained */
+/* Always draw a grid on paper roughly to understand. Then
+calculations are very easy to undrstand */
+.row {
+  // width: 1140px; // Standard these days as 10px = 1rem in our base.scss
+  max-width: $grid-width; // if viewport is less than 114rem,
+  // then use that 100%, else max width is 114rem
+  margin: 0 auto;
+  @include clearfix;
+
+  &:not(:last-child) {
+    margin-bottom: $gutter-vertical;
+  }
+
+  // attribute selector: Selector all elements with class starting with
+  // "col-"
+  [class^="col-"] {
+    float: left;
+
+    &:not(:last-child) {
+      // need margin right(gutter-horizontal) on all, but not last col
+      margin-right: $gutter-horizontal;
+    }
+  }
+
+  .col-1-of-2 {
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc((100% - #{$gutter-horizontal})/2);
+  }
+
+  .col-1-of-3 {
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc((100% - (2 * #{$gutter-horizontal}))/3);
+  }
+
+  .col-2-of-3 {
+    // twice width of single element in 1-of-3 + 1 gutters
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc(2*((100% - (2 * #{$gutter-horizontal}))/3) + #{$gutter-horizontal});
+  }
+
+  .col-1-of-4 {
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc((100% - (3 * #{$gutter-horizontal}))/4);
+  }
+
+
+  .col-2-of-4 {
+    // twice width of single element in 1-of-4 + 1 gutters
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc(2 * ((100% - (3 * #{$gutter-horizontal}))/4) + #{$gutter-horizontal});
+  }
+
+  .col-3-of-4 {
+    // thrice width of single element in 1-of-4 + 2 gutters
+    // to use scss variable in calc, we need to use #{variable}
+    width: calc(3 * ((100% - (3 * #{$gutter-horizontal}))/4) + 2 * (#{$gutter-horizontal}));
+  }
+}

@@ -1,0 +1,31 @@
+/* universal selector */
+/* applies to every element in page */
+/* * means only real elements. Pseudo elements not included */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /* forcing inheritance of box-sizing in every element. Useful when we need to override
+  the value in some component. */
+}
+
+/* Setting root font-size */
+/* 10px to make calculations easier */
+/* 1rem = root font size = 10px */
+/* Normally browsers have a default font-size 16px. Which users can change.
+If we here give root font size in html tag in px, user setting font size in browser
+will not work. As we have overriden here. We should allow user to change font size settings in browser
+Therefore, we will here give value in %. So if default is 16px and we want 10px here
+We can put our root size as 10/16 = 0.625 So 62.5%. Now we change out measurements as per
+user set font size. This is the best practice. */
+html {
+  /* font-size: 10px; */
+  /* This defines what 1rem is */
+  font-size: 62.5%; /* Of what is the default set in browser. default(16px) */
+}
+
+body {
+  box-sizing: border-box;
+}

@@ -1,0 +1,245 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+/* universal selector */
+/* applies to every element in page */
+/* * means only real elements. Pseudo elements not included */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /* forcing inheritance of box-sizing in every element. Useful when we need to override
+  the value in some component. */
+}
+
+/* Setting root font-size */
+/* 10px to make calculations easier */
+/* 1rem = root font size = 10px */
+/* Normally browsers have a default font-size 16px. Which users can change.
+If we here give root font size in html tag in px, user setting font size in browser
+will not work. As we have overriden here. We should allow user to change font size settings in browser
+Therefore, we will here give value in %. So if default is 16px and we want 10px here
+We can put our root size as 10/16 = 0.625 So 62.5%. Now we change out measurements as per
+user set font size. This is the best practice. */
+html {
+  /* font-size: 10px; */
+  font-size: 62.5%; /* Of what is the default set in browser. default(16px) */
+}
+
+
+/* Always set font in body(not universal selector) for inheritance */
+/* We loaded Lato font from Google in index.html */
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem; /* padding is not inheritable property */
+  box-sizing: border-box;
+}
+
+/* https://bennettfeely.com/clippy/ css clip path */
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+    to right bottom,
+     rgba(128, 214, 113, 0.81),
+      rgba(40, 180, 133, 0.803)
+    ),
+    url('../img/hero.jpg');
+  background-size: cover;
+  background-position: top; /* top of image fixed. bottom gets cropped on resize */
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /* x y, x y, x y, x y 4 cordinates top right bottom left */
+  position: relative;
+}
+
+/* since .header is the parent. Add relative postion to .header */
+/* Then absolute position to the image container */
+.header__logo-box {
+  position: absolute;
+  top: 4rem;
+  left: 4rem;
+}
+/* actual image height */
+/* width will be figured out by browser */
+/* or set width and let broswer calculate height */
+.header__logo {
+  height: 3.5rem;
+}
+
+.header__text-box {
+  position: absolute;
+  left: 50%;
+  top: 40%; /* top left in relation to parent element (origin) */
+  transform: translate(-50%, -50%);
+  text-align: center;
+  /* These -50% are of the elements top and left and not parents */
+  /* Trick to center element with transform: translate */
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  /* https://nutanix.udemy.com/course/advanced-css-and-sass/learn/lecture/8274406#overview
+  sometimes when applying animation to its children there is a slight shake at the end of
+  animation. This is hack to smooth the effect. No one knows the real reason of this
+  jerk that comes. backface-visibility: hidden; */
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+}
+
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 400;
+  letter-spacing: 3.5rem;
+  animation-name: moveInLeft;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  /*
+  animation-delay: 3s;
+  animation-iteration-count: 2;
+  */
+}
+/* check font weight available for Lato font */
+/* "https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" means we imported these font weights */
+.heading-primary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.75rem;
+  animation: moveInRight 1s ease-out;
+  /* also works like 1s ease-out moveInRight 1s ease-out */
+  /* it auto figures out the properties meaning */
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+
+  80% {
+    transform: translateX(1rem);
+  }
+
+  100% {
+    opacity: 1;
+    /* 0 means ariginal position. +ve towards right ... -ive towards left */
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+
+  80% {
+    transform: translateX(-1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* btn is link. So setting css for link default n visited state */
+.btn:link,
+.btn:visited {
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1.5rem 4rem;
+  /* inline block...so it will be treated as text, hence we can set text-align center
+  to its parent .text-box to center it.
+  If you make it block,it will take entire width of the parent .text-box, text inside will still be centered */
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all 0.2s; /* transistion property is always put in the intial state */
+  position: relative;
+  font-size: 1.6rem;
+}
+
+.btn--white {
+  background-color: #fff;
+  color: #777;
+}
+
+.btn:hover {
+  transform: translateY(-.3rem); /* 3px above, relative to link state */
+  box-shadow: 0 1rem 2rem rgba(0,0,0, 0.2);
+}
+
+/* elem is anchor tag. So active state, when it is clicked */
+.btn:active {
+  transform: translateY(-.1rem); /* 1px above, relative to link state */
+  box-shadow: 0 .5rem 1rem rgba(0,0,0, 0.2);
+}
+
+/* content and display are required to show pseudo element in screen
+this pseudo elem is treated like a child of the main element, so
+100% width heigth means 100% percent of the main/parent elem */
+.btn::after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border-radius: 10rem;
+  /* to put it behind the .btn, so add position: relative to .btn */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* transistion property is always put in the intial state, initial state is
+  .btn::after */
+  transition: all 0.4s;
+}
+
+.btn--white::after {
+  background-color: #fff;
+}
+
+/* pseudo elem when after when .btn is hovered */
+.btn:hover::after {
+  transform: scaleX(1.2) scaleY(1.6);
+  /* trick to make it fade-out: opacity: 0 */
+  /* when animation finished, comes back to original state */
+  opacity: 0;
+}
+
+/* animation to bring in button from bottom */
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn--animated {
+  animation: moveInBottom 700ms ease-out 0.75s;
+  /* button is visible at the start and then after the delay of 0.75s the animation starts
+  We want the button to not be visible at start. One solution is to add all these properties
+  to the button and hide it first then show.
+  Simplest solution is to say apply the style at the start of animation to the button.
+  animation-fill-mode: backwards; Means from 100 to back 0. So apply the style at 0% status
+  of anination to the button then start animation after the specified delay.
+  to apply styles of the 100% status of animation. animation-fill-mode: forwards;
+   */
+  animation-fill-mode: backwards;
+}

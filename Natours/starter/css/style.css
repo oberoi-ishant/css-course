@@ -1,0 +1,443 @@
+/* universal selector */
+/* applies to every element in page */
+/* * means only real elements. Pseudo elements not included */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /* forcing inheritance of box-sizing in every element. Useful when we need to override
+  the value in some component. */ }
+
+/* Setting root font-size */
+/* 10px to make calculations easier */
+/* 1rem = root font size = 10px */
+/* Normally browsers have a default font-size 16px. Which users can change.
+If we here give root font size in html tag in px, user setting font size in browser
+will not work. As we have overriden here. We should allow user to change font size settings in browser
+Therefore, we will here give value in %. So if default is 16px and we want 10px here
+We can put our root size as 10/16 = 0.625 So 62.5%. Now we change out measurements as per
+user set font size. This is the best practice. */
+html {
+  /* font-size: 10px; */
+  /* This defines what 1rem is */
+  font-size: 62.5%;
+  /* Of what is the default set in browser. default(16px) */ }
+
+body {
+  box-sizing: border-box; }
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    /* 0 means ariginal position. +ve towards right ... -ive towards left */
+    transform: translateX(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
+/* animation to bring in button from bottom */
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(2rem); }
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+
+.u-center-text {
+  text-align: center; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem; }
+
+/* Always set font in body(not universal selector) for inheritance */
+/* We loaded Lato font from Google in index.html */
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem;
+  /* padding is not inheritable property */
+  box-sizing: border-box; }
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  /* https://nutanix.udemy.com/course/advanced-css-and-sass/learn/lecture/8274406#overview
+  sometimes when applying animation to its children there is a slight shake at the end of
+  animation. This is hack to smooth the effect. No one knows the real reason of this
+  jerk that comes. backface-visibility: hidden; */
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+  /* check font weight available for Lato font */
+  /* "https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" means we imported these font weights */ }
+  .heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /*
+    animation-delay: 3s;
+    animation-iteration-count: 2;
+    */ }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s ease-out;
+    /* also works like 1s ease-out moveInRight 1s ease-out */
+    /* it auto figures out the properties meaning */ }
+
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  background-image: linear-gradient(to right, #7ed56f, #28b485);
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: all .2s;
+  letter-spacing: .2rem; }
+  .heading-secondary:hover {
+    transform: skewY(2deg) skew(15deg) scale(1.1);
+    text-shadow: 0.5rem 1rem 2rem rbga(#000, 0.2); }
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  font-weight: 700; }
+
+.paragraph {
+  font-size: 1.6rem;
+  margin-bottom: 3rem; }
+  .paragraph:last-child {
+    margin-bottom: 0; }
+
+.btn {
+  /* btn is link. So setting css for link default n visited state */
+  /* elem is anchor tag. So active state, when it is clicked */
+  /* content and display are required to show pseudo element in screen
+  this pseudo elem is treated like a child of the main element, so
+  100% width heigth means 100% percent of the main/parent elem */ }
+  .btn:link, .btn:visited {
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 1.5rem 4rem;
+    /* inline block...so it will be treated as text, hence we can set text-align center
+    to its parent .text-box to center it.
+    If you make it block,it will take entire width of the parent .text-box, text inside will still be centered */
+    display: inline-block;
+    border-radius: 10rem;
+    transition: all 0.2s;
+    /* transistion property is always put in the intial state */
+    position: relative;
+    font-size: 1.6rem; }
+  .btn--white {
+    background-color: #fff;
+    color: #28b485; }
+    .btn--white::after {
+      background-color: #fff; }
+  .btn:hover {
+    transform: translateY(-0.3rem);
+    /* 3px above, relative to link state */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    /* pseudo elem when after when .btn is hovered */ }
+    .btn:hover::after {
+      transform: scaleX(1.2) scaleY(1.6);
+      /* trick to make it fade-out: opacity: 0 */
+      /* when animation finished, comes back to original state */
+      opacity: 0; }
+  .btn:active {
+    transform: translateY(-0.1rem);
+    /* 1px above, relative to link state */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); }
+  .btn::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 10rem;
+    /* to put it behind the .btn, so add position: relative to .btn */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* transistion property is always put in the intial state, initial state is
+    .btn::after */
+    transition: all 0.4s; }
+  .btn--animated {
+    animation: moveInBottom 700ms ease-out 0.75s;
+    /* button is visible at the start and then after the delay of 0.75s the animation starts
+    We want the button to not be visible at start. One solution is to add all these properties
+    to the button and hide it first then show.
+    Simplest solution is to say apply the style at the start of animation to the button.
+    animation-fill-mode: backwards; Means from 100 to back 0. So apply the style at 0% status
+    of anination to the button then start animation after the specified delay.
+    to apply styles of the 100% status of animation. animation-fill-mode: forwards;
+     */
+    animation-fill-mode: backwards; }
+
+.btn-text:link, .btn-text:visited {
+  font-size: 1.6rem;
+  color: #55c57a;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  transition: all .2s; }
+
+.btn-text:hover {
+  transform: translateY(-3px);
+  color: #fff;
+  background-color: #55c57a;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15); }
+
+.btn-text:active {
+  transform: translateY(0);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); }
+
+.composition {
+  position: relative; }
+  .composition__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 10;
+    transition: all .2s;
+    outline-offset: 2rem; }
+    .composition__photo--p1 {
+      left: 0;
+      top: -2rem; }
+    .composition__photo--p2 {
+      right: 0;
+      top: 2rem; }
+    .composition__photo--p3 {
+      left: 20%;
+      top: 10rem; }
+    .composition__photo:hover {
+      transform: scale(1.05) translateY(-0.5rem);
+      box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.5);
+      z-index: 20;
+      outline: 1.5rem solid #55c57a;
+      /* firt border then outerwards outline
+      So you can either give border transparent with outline
+      border: 2rem solid transparent;
+      OR
+      outline plus outline-offset */ }
+  .composition:hover .composition__photo:not(:hover) {
+    transform: scale(0.95); }
+
+.feature-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 2.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform .3s; }
+  .feature-box:hover {
+    transform: scale(1.03) translateY(-1.5rem); }
+  .feature-box__icon {
+    font-size: 6rem;
+    margin-bottom: .5rem;
+    display: inline-block;
+    background-image: linear-gradient(to right, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8));
+    color: transparent;
+    -webkit-background-clip: text; }
+
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  /* Since children of .card are position"absolute,
+  they are taken out of flow and .card is height:0.
+  Much like float. Float solution is clearfix.
+  But with aboslute, you need to give height to parent.
+  So we give same height as given to children. */
+  height: 52rem; }
+  .card__side {
+    height: 52rem;
+    transition: all .8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: .3rem;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+    /* Image in the child (&__picture) is overflowing, hence border-radius is not
+    correctly applied. Therefore overflow: hidden */
+    overflow: hidden; }
+    .card__side--front {
+      background-color: #fff; }
+    .card__side--back {
+      transform: rotateY(180deg); }
+      .card__side--back-1 {
+        background-image: linear-gradient(to right bottom, #ffb900, #ff7730); }
+      .card__side--back-2 {
+        background-image: linear-gradient(to right bottom, #2998ff, #5643fa); }
+      .card__side--back-3 {
+        background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+  .card:hover .card__side--front {
+    transform: rotateY(-180deg); }
+  .card:hover .card__side--back {
+    transform: rotateY(0); }
+  .card__picture {
+    /* Since element has only one space &nbsp; so image will
+      look very small. Therefor add a height to element */
+    height: 23rem;
+    background-size: cover;
+    /* Blend backgrounds, here image with gradient */
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
+    .card__picture--1 {
+      /* we can also use ../img/nat-5.jpg not ../../
+      This is because entire scss will be complied to css in
+      css folder style.css. So path can be relative to style.css */
+      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../../img/nat-5.jpg); }
+    .card__picture--2 {
+      background-image: url(../../img/nat-5.jpg); }
+    .card__picture--3 {
+      background-image: url(../../img/nat-5.jpg); }
+  .card__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #fff;
+    position: absolute;
+    top: 12rem;
+    right: 3rem;
+    text-align: right;
+    width: 75%; }
+  .card__heading-span {
+    padding: 1rem 1.5rem;
+    /* With padding now text breaks into two lines, but
+    padding is applied only in the staring of sentence and end of
+    sentence. To apply it to the text start and end when text breaks
+    to different lines, use property box-decoration-break: clone;
+    clone means apply all styles to the new blocks created with break, in
+    this case just the padding specified above */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone; }
+    .card__heading-span--1 {
+      background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0.85), rgba(255, 119, 48, 0.85)); }
+  .card__details {
+    padding: 3rem; }
+    .card__details ul {
+      list-style: none;
+      width: 80%;
+      margin: 0 auto; }
+      .card__details ul li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem; }
+        .card__details ul li:not(:last-child) {
+          border-bottom: 0.1rem solid #eee; }
+
+.section-about {
+  /* Since total height of header is 95vh and in clip-path the
+  wedge shape has height 74vh so difference is 20vh
+  Check _header.scss */
+  background-color: #f7f7f7;
+  padding: 25rem 0;
+  margin-top: -20vh; }
+
+.section-features {
+  padding: 20rem 0;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../../img/nat-4.jpg);
+  background-size: cover;
+  transform: skewY(-7deg);
+  margin-top: -10rem; }
+  .section-features > * {
+    transform: skewY(7deg); }
+
+.section-tours {
+  background-color: #f7f7f7;
+  padding: 25rem 0 50rem 0;
+  margin-top: -10rem; }
+
+/* https://bennettfeely.com/clippy/ css clip path */
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.81), rgba(40, 180, 133, 0.803)), url("../img/hero.jpg");
+  background-size: cover;
+  background-position: top;
+  /* top of image fixed. bottom gets cropped on resize */
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /* x y, x y, x y, x y 4 cordinates top right bottom left */
+  position: relative;
+  /* since .header is the parent. Add relative postion to .header */
+  /* Then absolute position to the image container */
+  /* actual image height */
+  /* width will be figured out by browser */
+  /* or set width and let broswer calculate height */ }
+  .header__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem; }
+  .header__logo {
+    height: 3.5rem; }
+  .header__text-box {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    /* top left in relation to parent element (origin) */
+    transform: translate(-50%, -50%);
+    text-align: center;
+    /* These -50% are of the elements top and left and not parents */
+    /* Trick to center element with transform: translate */ }
+
+/* Check slide-important for the Grid system explained */
+/* Always draw a grid on paper roughly to understand. Then
+calculations are very easy to undrstand */
+.row {
+  max-width: 114rem;
+  margin: 0 auto; }
+  .row::after {
+    content: '';
+    clear: both;
+    display: table; }
+  .row:not(:last-child) {
+    margin-bottom: 8rem; }
+  .row [class^="col-"] {
+    float: left; }
+    .row [class^="col-"]:not(:last-child) {
+      margin-right: 6rem; }
+  .row .col-1-of-2 {
+    width: calc((100% - 6rem)/2); }
+  .row .col-1-of-3 {
+    width: calc((100% - (2 * 6rem))/3); }
+  .row .col-2-of-3 {
+    width: calc(2*((100% - (2 * 6rem))/3) + 6rem); }
+  .row .col-1-of-4 {
+    width: calc((100% - (3 * 6rem))/4); }
+  .row .col-2-of-4 {
+    width: calc(2 * ((100% - (3 * 6rem))/4) + 6rem); }
+  .row .col-3-of-4 {
+    width: calc(3 * ((100% - (3 * 6rem))/4) + 2 * (6rem)); }

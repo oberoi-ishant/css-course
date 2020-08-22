@@ -1,0 +1,83 @@
+/* Always set font in body(not universal selector) for inheritance */
+/* We loaded Lato font from Google in index.html */
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: $color-grey-dark;
+  padding: 3rem; /* padding is not inheritable property */
+  box-sizing: border-box;
+}
+
+.heading-primary {
+  color: $color-white;
+  text-transform: uppercase;
+  /* https://nutanix.udemy.com/course/advanced-css-and-sass/learn/lecture/8274406#overview
+  sometimes when applying animation to its children there is a slight shake at the end of
+  animation. This is hack to smooth the effect. No one knows the real reason of this
+  jerk that comes. backface-visibility: hidden; */
+  backface-visibility: hidden;
+  margin-bottom: 6rem;
+
+  &--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /*
+    animation-delay: 3s;
+    animation-iteration-count: 2;
+    */
+  }
+
+  /* check font weight available for Lato font */
+  /* "https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" means we imported these font weights */
+  &--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s ease-out;
+    /* also works like 1s ease-out moveInRight 1s ease-out */
+    /* it auto figures out the properties meaning */
+  }
+}
+
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block; // To occupy width just equal to content
+  background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+  -webkit-background-clip: text; // Need to use webkit as it is very new
+  color: transparent; // need to set it transparent to see the gradient set behind. Else you see just the text color.
+  transition: all .2s;
+  letter-spacing: .2rem;
+
+  &:hover {
+    transform: skewY(2deg) skew(15deg) scale(1.1);
+    text-shadow: .5rem 1rem 2rem rbga($color-black, .2);
+  }
+}
+
+.heading-tertiary  {
+  font-size: $default-font-size;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.paragraph {
+  font-size: $default-font-size;
+  margin-bottom: 3rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  // &:not(:last-child) {
+  //   margin-bottom: 3rem;
+  // }
+}
